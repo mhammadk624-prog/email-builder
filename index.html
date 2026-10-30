@@ -9,17 +9,20 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--bg:#070916;--tx:#eef0ff;--mu:#9aa3cf;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);--in:rgba(255,255,255,.07);--a:#8b5cf6;--b:#06b6d4;--c:#f472b6;--paper:#fff;--ptx:#1c1e33}
-[data-t=light]{--bg:#f1f0ff;--tx:#1c1e33;--mu:#5e6490;--card:rgba(255,255,255,.72);--bd:rgba(90,80,170,.18);--in:rgba(255,255,255,.95)}
+:root{--bg:#070916;--tx:#eef0ff;--mu:#9aa3cf;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);--in:rgba(255,255,255,.07);--a:#8b5cf6;--b:#06b6d4;--c:#f472b6;--paper:#fff;--ptx:#1c1e33;color-scheme:dark}
+[data-t=light]{--bg:#f1f0ff;--tx:#1c1e33;--mu:#5e6490;--card:rgba(255,255,255,.72);--bd:rgba(90,80,170,.18);--in:rgba(255,255,255,.95);color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font-family:system-ui,"Segoe UI",Tahoma,"Noto Sans",sans-serif;background:var(--bg);color:var(--tx);padding:18px;overflow-x:hidden}
 .blob{position:fixed;width:420px;height:420px;border-radius:50%;filter:blur(90px);opacity:.45;z-index:-1;animation:fl 14s ease-in-out infinite alternate}
 .b1{background:var(--a);top:-120px;left:-100px}.b2{background:var(--b);bottom:-140px;right:-100px;animation-delay:-5s}.b3{background:var(--c);top:40%;left:45%;width:260px;height:260px;opacity:.25;animation-delay:-9s}
 @keyframes fl{to{transform:translate(60px,40px) scale(1.15)}}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+@keyframes pop{from{opacity:.35;transform:translateY(12px) scale(.985)}}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-4deg)}}
 .w{max-width:1040px;margin:auto}
 header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 8px 24px rgba(139,92,246,.45)}
+.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 8px 24px rgba(139,92,246,.45);animation:bob 4s ease-in-out infinite}
 h1{margin:0;font-size:1.6rem;letter-spacing:-.02em}
 .tools{display:flex;gap:8px}
 .g{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start}
@@ -33,29 +36,57 @@ input,select,textarea{width:100%;padding:11px 14px;border:1px solid var(--bd);bo
 input:focus,select:focus,textarea:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(139,92,246,.25)}
 select option{color:#111}
 textarea{min-height:76px;resize:vertical}
+.fl{display:block;font-size:.72rem;color:var(--mu)}
+.fl span{display:block;margin:0 4px 4px}
 .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media(max-width:480px){.chips{grid-template-columns:repeat(2,1fr)}}
-.chip{padding:10px 4px;border:1px solid var(--bd);border-radius:14px;background:var(--in);color:var(--tx);cursor:pointer;font:inherit;font-size:.78rem;transition:.2s}
-.chip:hover{transform:translateY(-2px)}
+.chip{padding:10px 4px;border:1px solid var(--bd);border-radius:14px;background:var(--in);color:var(--tx);cursor:pointer;font:inherit;font-size:.78rem;transition:.2s;word-break:break-word}
+.chip:hover{transform:translateY(-2px);border-color:var(--a)}
+.chip:active{transform:scale(.95)}
 .chip i{display:block;font-style:normal;font-size:1.4rem;margin-bottom:2px}
 .chip.on{border-color:transparent;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;box-shadow:0 8px 20px rgba(139,92,246,.4)}
 .seg{display:flex;gap:6px}.seg .chip{flex:1}
 .r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;margin-top:14px;padding:14px;border:0;border-radius:16px;font:inherit;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(90deg,var(--a),var(--c));box-shadow:0 10px 26px rgba(244,114,182,.35)}
+.btn{position:relative;overflow:hidden;width:100%;margin-top:14px;padding:14px;border:0;border-radius:16px;font:inherit;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(90deg,var(--a),var(--c));box-shadow:0 10px 26px rgba(244,114,182,.35);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(244,114,182,.5)}
+.btn:active{transform:scale(.98)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%)}
+.btn:hover::after{transform:translateX(100%);transition:transform .7s}
 .micbox{display:flex;gap:14px;align-items:center;margin-bottom:14px}
 .micbox>div{flex:1}
-.mic{width:68px;height:68px;border-radius:50%;border:0;font-size:1.8rem;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--a),var(--c));box-shadow:0 10px 28px rgba(139,92,246,.5);flex:none}
+.mic{width:68px;height:68px;border-radius:50%;border:0;font-size:1.8rem;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--a),var(--c));box-shadow:0 10px 28px rgba(139,92,246,.5);flex:none;transition:transform .2s}
+.mic:hover{transform:scale(1.07)}
 .mic.on{animation:pl 1.1s infinite;background:linear-gradient(135deg,#ef4444,#f97316)}
 @keyframes pl{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}100%{box-shadow:0 0 0 26px rgba(239,68,68,0)}}
 .ms{font-size:.82rem;color:var(--mu);margin-top:6px;min-height:1.2em}
 .paper{background:var(--paper);color:var(--ptx);border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.25)}
+.paper.pop{animation:pop .45s ease}
 .bar{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid #e6e8f2;background:#f6f7fd}
 .paper input,.paper textarea{background:transparent;border:0;border-radius:0;color:var(--ptx);box-shadow:none}
 .paper input{font-weight:700}
 .paper textarea{min-height:270px;line-height:1.75;padding:14px 18px}
+.wc{color:#8a90b5;font-size:.7rem;white-space:nowrap}
 .acts{display:flex;gap:8px;margin-top:12px}
-.ib{padding:10px 14px;border:1px solid var(--bd);border-radius:14px;background:var(--in);color:var(--tx);cursor:pointer;font:inherit}
+.ib{padding:10px 14px;border:1px solid var(--bd);border-radius:14px;background:var(--in);color:var(--tx);cursor:pointer;font:inherit;transition:.2s}
+.ib:hover{transform:translateY(-2px);border-color:var(--a)}
+.ib:active{transform:scale(.96)}
 .acts .ib:nth-child(-n+2){flex:1}
+.hist{margin-top:12px;border:1px solid var(--bd);border-radius:16px;background:var(--in);padding:10px;max-height:240px;overflow:auto;animation:up .3s}
+.hh{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--mu);margin-bottom:6px}
+.hi{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.hl{flex:1;text-align:start;background:transparent;border:1px solid var(--bd);border-radius:12px;padding:8px 10px;color:var(--tx);font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
+.hl b{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hl small{color:var(--mu);font-size:.7rem}
+.hl:hover{border-color:var(--a)}
+.hx{background:transparent;border:0;color:var(--mu);cursor:pointer;font-size:.9rem}
+.he{text-align:center;color:var(--mu)}
+.sm{padding:4px 10px;font-size:.8rem}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);padding:10px 18px;border-radius:999px;background:rgba(20,22,45,.92);color:#fff;font-size:.85rem;opacity:0;pointer-events:none;transition:.3s;z-index:9;border:1px solid var(--bd)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.boot .c{animation:up .6s both}
+.boot .c:nth-child(2){animation-delay:.12s}
+.boot .chip{animation:up .5s both;animation-delay:calc(var(--i,0)*40ms)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -63,7 +94,7 @@ textarea{min-height:76px;resize:vertical}
 <div class="w">
 <header>
 <div class="brand"><div class="logo">✉️</div><h1 id="ttl"></h1></div>
-<div class="tools"><span style="align-self:center">🌐</span><select id="ul"></select><button class="ib" onclick="th()">🌓</button></div>
+<div class="tools"><span style="align-self:center">🌐</span><select id="ul"></select><button class="ib" onclick="th()" title="Theme">🌓</button></div>
 </header>
 <main class="g">
 <section class="c">
@@ -72,22 +103,30 @@ textarea{min-height:76px;resize:vertical}
 <select id="el" style="display:none"></select>
 <div class="seg" id="gen2" style="margin-top:10px"></div>
 <div class="st"><b>3</b><span>✍️</span></div>
-<div class="r2"><input id="to"><input id="me"></div>
-<input id="topic" style="margin-top:10px"><textarea id="det" style="margin-top:10px"></textarea>
+<div class="r2"><input id="to"><input id="me" autocomplete="name"></div>
+<input id="topic" style="margin-top:10px">
+<div class="r2" id="dtrow" style="margin-top:10px;display:none">
+<label class="fl"><span id="dl1"></span><input type="date" id="dd1"></label>
+<label class="fl" id="f2"><span id="dl2"></span><input type="date" id="dd2"></label>
+<label class="fl" id="f3"><span id="dl3"></span><input type="time" id="tme"></label>
+</div>
+<textarea id="det" style="margin-top:10px"></textarea>
 <button class="btn" id="bg" onclick="make()"></button>
 </section>
 <section class="c sticky">
-<div class="micbox"><button id="mic" class="mic" onclick="mic()">🎙️</button><div><select id="sl" style="display:none"></select><div id="ms" class="ms"></div></div></div>
-<div class="paper"><div class="bar"><span>✉️</span><input id="sj"></div><textarea id="out" placeholder="🎙️ / ⚡"></textarea></div>
-<div class="acts"><button class="ib" id="bc" onclick="cp()"></button><button class="ib" id="bm" onclick="ml()"></button><button class="ib" onclick="say()">🔊</button><button class="ib" onclick="make()">🔄</button></div>
-<div class="acts"><button class="ib" style="flex:1" onclick="polish()">✨ Polish English</button></div>
+<div class="micbox"><button id="mic" class="mic" onclick="mic()" title="Voice">🎙️</button><div><select id="sl" style="display:none"></select><div id="ms" class="ms"></div></div></div>
+<div class="paper"><div class="bar"><span>✉️</span><input id="sj"><small class="wc" id="wc"></small></div><textarea id="out" placeholder="🎙️ / ⚡"></textarea></div>
+<div class="acts"><button class="ib" id="bc" onclick="cp()"></button><button class="ib" id="bm" onclick="ml()"></button><button class="ib" onclick="say()" title="Read aloud">🔊</button><button class="ib" onclick="make()" title="Regenerate">🔄</button></div>
+<div class="acts"><button class="ib" style="flex:1" onclick="polish()">✨ Polish English</button><button class="ib" id="bh" onclick="hp()" title="Recent drafts">🕘</button></div>
 <div class="acts"><select id="tl" style="display:none"></select><button class="ib" id="btr" style="flex:1" onclick="trans()"></button></div>
+<div class="hist" id="hist" hidden></div>
 </section>
 </main>
 </div>
+<div class="toast" id="toast"></div>
 <script>
 const $=id=>document.getElementById(id);
-const IC=["💼","🔁","🏖️","📅","🙏","⚠️","🚪","💳"];
+const IC=["💼","🔁","🏖️","📅","🙏","⚠️","🚪","💳","😔","🎉","💸","⭐"];
 const L={
 en:{n:"English",h:["Dear {n},","Hi {n},","Hello {n},"],b:["Kind regards,","Thanks and best,","Regards,"],o:["I hope this email finds you well.","Hope you're doing well!"],d:"Details: ",x:"Sir/Madam",
 t:[["Application for {t}","I am writing to apply for the {t} position.","I would be glad to discuss further at your convenience."],
@@ -171,17 +210,42 @@ t:[["{t} başvurusu","{t} pozisyonuna başvurmak için yazıyorum.","Uygun oldu�
 u:["Akıllı E-posta Oluşturucu","Tür","Ton","Alıcı","Gönderen","Konu","Ayrıntılar","Oluştur","Kopyala","Postayı aç","Konu"],y:["İş","Takip","İzin","Toplantı","Teşekkür","Şikayet"],z:["Resmi","Samimi","Kısa"]}
 };
 
+/* Extra templates: 6 Resignation, 7 Payment (old) + 8 Apology, 9 Invitation, 10 Refund, 11 Reference (new) */
 const N={
-en:{t:[["Resignation: {t}","I am writing to formally resign from my position as {t}.","Thank you for the opportunity, and I will ensure a smooth handover."],["Payment reminder: {t}","This is a friendly reminder that payment for {t} is still pending.","Please arrange the payment at your earliest convenience."]],y:["Resignation","Payment"]},
-hi:{t:[["त्यागपत्र: {t}","मैं {t} पद से औपचारिक रूप से इस्तीफ़ा देना चाहता/चाहती हूँ।","अवसर के लिए धन्यवाद; मैं कार्यभार का सुचारू हस्तांतरण सुनिश्चित करूँगा/करूँगी।"],["भुगतान अनुस्मारक: {t}","यह एक विनम्र स्मरण है कि {t} का भुगतान अभी लंबित है।","कृपया यथाशीघ्र भुगतान की व्यवस्था करें।"]],y:["इस्तीफ़ा","भुगतान"]},
-ur:{t:[["استعفیٰ: {t}","میں {t} کے عہدے سے باضابطہ استعفیٰ دینا چاہتا ہوں۔","موقع دینے کا شکریہ، میں ذمہ داریوں کی ہموار منتقلی یقینی بناؤں گا۔"],["ادائیگی کی یاد دہانی: {t}","یہ ایک مؤدبانہ یاد دہانی ہے کہ {t} کی ادائیگی ابھی باقی ہے۔","براہِ کرم جلد از جلد ادائیگی کا انتظام کریں۔"]],y:["استعفیٰ","ادائیگی"]},
-sd:{t:[["استعيفا: {t}","مان {t} جي عهدي تان باضابطه استعيفا ڏيڻ چاهيان ٿو.","موقعي لاءِ مهرباني، مان ذميوارين جي هموار منتقلي يقيني بنائيندس."],["ادائيگي جي ياددهاني: {t}","هي هڪ عاجزي ڀري ياددهاني آهي ته {t} جي ادائيگي اڃا باقي آهي.","مهرباني ڪري جلد کان جلد ادائيگي جو بندوبست ڪريو."]],y:["استعيفا","ادائيگي"]},
-ar:{t:[["استقالة: {t}","أكتب لتقديم استقالتي رسمياً من منصب {t}.","أشكركم على الفرصة، وسأضمن تسليماً سلساً للمهام."],["تذكير بالدفع: {t}","هذا تذكير ودّي بأن دفعة {t} لا تزال معلّقة.","يرجى ترتيب الدفع في أقرب وقت ممكن."]],y:["استقالة","دفعة"]},
-ru:{t:[["Заявление об увольнении: {t}","Настоящим уведомляю о своём решении уволиться с должности «{t}».","Благодарю за возможность и обеспечу плавную передачу дел."],["Напоминание об оплате: {t}","Дружеское напоминание: оплата по {t} всё ещё не поступила.","Пожалуйста, произведите оплату в ближайшее время."]],y:["Увольнение","Оплата"]},
-ja:{t:[["退職のご連絡：{t}","{t}の職を退職させていただきたくご連絡いたしました。","これまでの機会に感謝し、円滑な引き継ぎを行います。"],["お支払いのご案内：{t}","{t}のお支払いがまだ確認できておりませんので、ご案内申し上げます。","お早めにお手続きいただけますと幸いです。"]],y:["退職","支払い"]},
-ko:{t:[["퇴직 의사: {t}","{t} 직책에서 퇴직하고자 정식으로 말씀드립니다.","기회를 주셔서 감사드리며, 원활한 인수인계를 약속드립니다."],["결제 안내: {t}","{t} 관련 결제가 아직 확인되지 않아 안내드립니다.","가능한 빨리 결제해 주시면 감사하겠습니다."]],y:["퇴직","결제"]},
-zh:{t:[["辞职申请：{t}","我谨此正式提出辞去{t}一职。","感谢给予的机会，我会做好工作交接。"],["付款提醒：{t}","温馨提醒：{t}的款项目前仍未收到。","请尽快安排付款，谢谢。"]],y:["辞职","付款"]},
-tr:{t:[["İstifa: {t}","{t} görevimden resmen istifa ettiğimi bildirmek için yazıyorum.","Fırsat için teşekkür ederim, devir teslimi sorunsuz yapacağım."],["Ödeme hatırlatması: {t}","{t} ödemesinin hâlâ beklemede olduğunu dostça hatırlatmak isterim.","Lütfen ödemeyi en kısa sürede yapınız."]],y:["İstifa","Ödeme"]}
+en:{t:[["Resignation: {t}","I am writing to formally resign from my position as {t}.","Thank you for the opportunity, and I will ensure a smooth handover."],["Payment reminder: {t}","This is a friendly reminder that payment for {t} is still pending.","Please arrange the payment at your earliest convenience."],
+["Apology: {t}","I sincerely apologize for {t}.","I will make sure it does not happen again. Thank you for your understanding."],["Invitation: {t}","I would be delighted to invite you to {t}.","Please let me know if you can join us."],["Refund request: {t}","I am writing to request a refund for {t}.","Please confirm once the refund has been processed."],["Reference request: {t}","I am writing to ask if you would be willing to write a reference for {t}.","Thank you for considering my request."]],y:["Resignation","Payment","Apology","Invitation","Refund","Reference"]},
+hi:{t:[["त्यागपत्र: {t}","मैं {t} पद से औपचारिक रूप से इस्तीफ़ा देना चाहता/चाहती हूँ।","अवसर के लिए धन्यवाद; मैं कार्यभार का सुचारू हस्तांतरण सुनिश्चित करूँगा/करूँगी।"],["भुगतान अनुस्मारक: {t}","यह एक विनम्र स्मरण है कि {t} का भुगतान अभी लंबित है।","कृपया यथाशीघ्र भुगतान की व्यवस्था करें।"],
+["क्षमा याचना: {t}","मैं {t} के लिए ईमानदारी से क्षमा चाहता/चाहती हूँ।","मैं सुनिश्चित करूँगा/करूँगी कि ऐसा दोबारा न हो। आपकी समझ के लिए धन्यवाद।"],["निमंत्रण: {t}","मुझे आपको {t} में आमंत्रित करते हुए खुशी हो रही है।","कृपया बताएँ कि क्या आप शामिल हो सकेंगे।"],["धनवापसी का अनुरोध: {t}","मैं {t} के लिए धनवापसी का अनुरोध करना चाहता/चाहती हूँ।","धनवापसी पूरी होने पर कृपया पुष्टि करें।"],["अनुशंसा पत्र का अनुरोध: {t}","मैं जानना चाहता/चाहती हूँ कि क्या आप {t} के लिए मेरी अनुशंसा लिखने के इच्छुक होंगे।","मेरे अनुरोध पर विचार करने के लिए धन्यवाद।"]],y:["इस्तीफ़ा","भुगतान","क्षमा","निमंत्रण","धनवापसी","अनुशंसा"]},
+ur:{t:[["استعفیٰ: {t}","میں {t} کے عہدے سے باضابطہ استعفیٰ دینا چاہتا ہوں۔","موقع دینے کا شکریہ، میں ذمہ داریوں کی ہموار منتقلی یقینی بناؤں گا۔"],["ادائیگی کی یاد دہانی: {t}","یہ ایک مؤدبانہ یاد دہانی ہے کہ {t} کی ادائیگی ابھی باقی ہے۔","براہِ کرم جلد از جلد ادائیگی کا انتظام کریں۔"],
+["معذرت: {t}","میں {t} کے لیے دل سے معذرت خواہ ہوں۔","میں یقینی بناؤں گا کہ ایسا دوبارہ نہ ہو۔ آپ کی سمجھ کا شکریہ۔"],["دعوت: {t}","مجھے آپ کو {t} میں مدعو کرتے ہوئے خوشی ہو رہی ہے۔","براہِ کرم بتائیں کہ کیا آپ شریک ہو سکیں گے۔"],["رقم کی واپسی کی درخواست: {t}","میں {t} کی رقم کی واپسی کی درخواست کرنا چاہتا ہوں۔","رقم واپس ہونے پر براہِ کرم تصدیق کریں۔"],["سفارشی خط کی درخواست: {t}","میں پوچھنا چاہتا ہوں کہ کیا آپ {t} کے لیے میرا سفارشی خط لکھنا پسند کریں گے۔","میری درخواست پر غور کرنے کا شکریہ۔"]],y:["استعفیٰ","ادائیگی","معذرت","دعوت","واپسی","سفارش"]},
+sd:{t:[["استعيفا: {t}","مان {t} جي عهدي تان باضابطه استعيفا ڏيڻ چاهيان ٿو.","موقعي لاءِ مهرباني، مان ذميوارين جي هموار منتقلي يقيني بنائيندس."],["ادائيگي جي ياددهاني: {t}","هي هڪ عاجزي ڀري ياددهاني آهي ته {t} جي ادائيگي اڃا باقي آهي.","مهرباني ڪري جلد کان جلد ادائيگي جو بندوبست ڪريو."],
+["معذرت: {t}","مان {t} لاءِ دل سان معذرت خواه آهيان.","مان يقيني بنائيندس ته ائين ٻيهر نه ٿئي. توهان جي سمجهه لاءِ مهرباني."],["دعوت: {t}","مون کي توهان کي {t} ۾ دعوت ڏيندي خوشي ٿي رهي آهي.","مهرباني ڪري ٻڌايو ته ڇا توهان شريڪ ٿي سگهندا."],["رقم واپسيءَ جي درخواست: {t}","مان {t} جي رقم واپس ڪرڻ جي درخواست ڪرڻ چاهيان ٿو.","رقم واپس ٿيڻ تي مهرباني ڪري تصديق ڪريو."],["سفارشي خط جي درخواست: {t}","مان پڇڻ چاهيان ٿو ته ڇا توهان {t} لاءِ منهنجو سفارشي خط لکڻ پسند ڪندا.","منهنجي درخواست تي غور ڪرڻ جي مهرباني."]],y:["استعيفا","ادائيگي","معذرت","دعوت","واپسي","سفارش"]},
+ar:{t:[["استقالة: {t}","أكتب لتقديم استقالتي رسمياً من منصب {t}.","أشكركم على الفرصة، وسأضمن تسليماً سلساً للمهام."],["تذكير بالدفع: {t}","هذا تذكير ودّي بأن دفعة {t} لا تزال معلّقة.","يرجى ترتيب الدفع في أقرب وقت ممكن."],
+["اعتذار: {t}","أعتذر بصدق عن {t}.","سأحرص على ألا يتكرر ذلك. شكراً لتفهمكم."],["دعوة: {t}","يسعدني دعوتكم إلى {t}.","يرجى إخباري إن كان بإمكانكم الحضور."],["طلب استرداد: {t}","أكتب لطلب استرداد المبلغ الخاص بـ{t}.","يرجى تأكيد ذلك بعد إتمام عملية الاسترداد."],["طلب توصية: {t}","أكتب لأسألكم إن كنتم توافقون على كتابة توصية لي بخصوص {t}.","شكراً لاعتباركم طلبي."]],y:["استقالة","دفعة","اعتذار","دعوة","استرداد","توصية"]},
+ru:{t:[["Заявление об увольнении: {t}","Настоящим уведомляю о своём решении уволиться с должности «{t}».","Благодарю за возможность и обеспечу плавную передачу дел."],["Напоминание об оплате: {t}","Дружеское напоминание: оплата по {t} всё ещё не поступила.","Пожалуйста, произведите оплату в ближайшее время."],
+["Извинение: {t}","Искренне прошу прощения за {t}.","Постараюсь, чтобы это не повторилось. Спасибо за понимание."],["Приглашение: {t}","Буду рад пригласить вас на {t}.","Пожалуйста, сообщите, сможете ли вы присоединиться."],["Запрос на возврат средств: {t}","Пишу, чтобы запросить возврат средств за {t}.","Пожалуйста, подтвердите, когда возврат будет произведён."],["Просьба о рекомендации: {t}","Хотел бы спросить, не могли бы вы написать рекомендацию для {t}.","Благодарю за рассмотрение моей просьбы."]],y:["Увольнение","Оплата","Извинение","Приглашение","Возврат","Рекомендация"]},
+ja:{t:[["退職のご連絡：{t}","{t}の職を退職させていただきたくご連絡いたしました。","これまでの機会に感謝し、円滑な引き継ぎを行います。"],["お支払いのご案内：{t}","{t}のお支払いがまだ確認できておりませんので、ご案内申し上げます。","お早めにお手続きいただけますと幸いです。"],
+["お詫び：{t}","{t}について、心よりお詫び申し上げます。","今後このようなことがないよう努めてまいります。ご理解のほどお願いいたします。"],["ご招待：{t}","{t}にぜひご招待したくご連絡いたしました。","ご参加いただけるかどうか、お知らせください。"],["返金のお願い：{t}","{t}の返金をお願いしたくご連絡いたしました。","返金完了の際はご連絡いただけますと幸いです。"],["推薦状のお願い：{t}","{t}のために推薦状を書いていただけないでしょうか。","ご検討いただけますと幸いです。"]],y:["退職","支払い","お詫び","招待","返金","推薦状"]},
+ko:{t:[["퇴직 의사: {t}","{t} 직책에서 퇴직하고자 정식으로 말씀드립니다.","기회를 주셔서 감사드리며, 원활한 인수인계를 약속드립니다."],["결제 안내: {t}","{t} 관련 결제가 아직 확인되지 않아 안내드립니다.","가능한 빨리 결제해 주시면 감사하겠습니다."],
+["사과의 말씀: {t}","{t}에 대해 진심으로 사과드립니다.","같은 일이 반복되지 않도록 하겠습니다. 이해해 주셔서 감사합니다."],["초대: {t}","{t}에 초대하고 싶어 연락드립니다.","참석 가능 여부를 알려주시면 감사하겠습니다."],["환불 요청: {t}","{t}에 대한 환불을 요청드리고자 합니다.","환불이 처리되면 확인 부탁드립니다."],["추천서 요청: {t}","{t}와(과) 관련된 추천서를 써주실 수 있는지 여쭙고자 합니다.","제 요청을 고려해 주셔서 감사합니다."]],y:["퇴직","결제","사과","초대","환불","추천서"]},
+zh:{t:[["辞职申请：{t}","我谨此正式提出辞去{t}一职。","感谢给予的机会，我会做好工作交接。"],["付款提醒：{t}","温馨提醒：{t}的款项目前仍未收到。","请尽快安排付款，谢谢。"],
+["致歉：{t}","对于{t}，我深表歉意。","我会确保此类情况不再发生，感谢您的理解。"],["邀请：{t}","诚挚邀请您参加{t}。","请告知您是否方便出席。"],["退款申请：{t}","我写信是想申请{t}的退款。","退款完成后请告知，谢谢。"],["推荐信请求：{t}","我想请问您是否愿意为{t}撰写一封推荐信。","感谢您考虑我的请求。"]],y:["辞职","付款","致歉","邀请","退款","推荐信"]},
+tr:{t:[["İstifa: {t}","{t} görevimden resmen istifa ettiğimi bildirmek için yazıyorum.","Fırsat için teşekkür ederim, devir teslimi sorunsuz yapacağım."],["Ödeme hatırlatması: {t}","{t} ödemesinin hâlâ beklemede olduğunu dostça hatırlatmak isterim.","Lütfen ödemeyi en kısa sürede yapınız."],
+["Özür: {t}","{t} için içtenlikle özür dilerim.","Bunun tekrarlanmaması için gereken özeni göstereceğim. Anlayışınız için teşekkürler."],["Davet: {t}","Sizi {t} etkinliğine davet etmekten mutluluk duyarım.","Katılıp katılamayacağınızı bildirirseniz sevinirim."],["İade talebi: {t}","{t} için iade talep etmek amacıyla yazıyorum.","İade işlemi tamamlandığında lütfen bilgi veriniz."],["Referans talebi: {t}","{t} için bana referans mektubu yazıp yazamayacağınızı sormak istiyorum.","Talebimi değerlendirdiğiniz için teşekkür ederim."]],y:["İstifa","Ödeme","Özür","Davet","İade","Referans"]}
+};
+
+/* Date/time labels, history title, and topic hints per type (same order as the type chips) */
+const X={
+en:{dl:["Date","Time","From","Until"],rh:"Recent drafts",ht:["Software Engineer","application status","sick leave","project review","your help with my project","delayed delivery","Marketing Manager","invoice #123","missing yesterday's meeting","my birthday party","order #4521","my university application"]},
+hi:{dl:["तारीख़","समय","से","तक"],rh:"हाल के ड्राफ़्ट",ht:["सॉफ़्टवेयर इंजीनियर","आवेदन की स्थिति","बीमारी","प्रोजेक्ट समीक्षा","मेरे प्रोजेक्ट में आपकी मदद","डिलीवरी में देरी","मार्केटिंग मैनेजर","इनवॉइस #123","कल की बैठक में अनुपस्थिति","मेरी जन्मदिन पार्टी","ऑर्डर #4521","मेरा विश्वविद्यालय आवेदन"]},
+ur:{dl:["تاریخ","وقت","سے","تک"],rh:"حالیہ مسودے",ht:["سافٹ ویئر انجینئر","درخواست کی صورتحال","بیماری","پراجیکٹ کا جائزہ","میرے پراجیکٹ میں آپ کی مدد","ڈیلیوری میں تاخیر","مارکیٹنگ مینیجر","انوائس #123","کل کی میٹنگ میں غیر حاضری","میری سالگرہ کی تقریب","آرڈر #4521","میری یونیورسٹی کی درخواست"]},
+sd:{dl:["تاريخ","وقت","کان","تائين"],rh:"تازا مسودا",ht:["سافٽ ويئر انجنيئر","درخواست جي صورتحال","بيماري","پراجيڪٽ جو جائزو","منهنجي پراجيڪٽ ۾ توهان جي مدد","ترسيل ۾ دير","مارڪيٽنگ مئنيجر","انوائس #123","ڪالهه جي ميٽنگ ۾ غير حاضري","منهنجي سالگرهه جي تقريب","آرڊر #4521","منهنجي يونيورسٽي جي درخواست"]},
+ar:{dl:["التاريخ","الوقت","من","إلى"],rh:"المسودات الأخيرة",ht:["مهندس برمجيات","حالة الطلب","مرض","مراجعة المشروع","مساعدتكم في مشروعي","تأخر التسليم","مدير تسويق","الفاتورة #123","الغياب عن اجتماع الأمس","حفل عيد ميلادي","الطلب #4521","طلب التحاق بالجامعة"]},
+ru:{dl:["Дата","Время","С","По"],rh:"Недавние черновики",ht:["Инженер-программист","статус заявки","болезнь","обзор проекта","помощь с проектом","задержка доставки","Менеджер по маркетингу","счёт №123","пропуск вчерашней встречи","мой день рождения","заказ №4521","моё поступление в университет"]},
+ja:{dl:["日付","時刻","開始","終了"],rh:"最近の下書き",ht:["ソフトウェアエンジニア","応募状況","体調不良","プロジェクトレビュー","プロジェクトへのご支援","配送の遅延","マーケティングマネージャー","請求書 #123","昨日の会議の欠席","私の誕生日パーティー","注文 #4521","大学出願"]},
+ko:{dl:["날짜","시간","시작","종료"],rh:"최근 초안",ht:["소프트웨어 엔지니어","지원 현황","몸살","프로젝트 검토","프로젝트 도움","배송 지연","마케팅 매니저","청구서 #123","어제 회의 불참","제 생일 파티","주문 #4521","대학 지원"]},
+zh:{dl:["日期","时间","从","至"],rh:"最近草稿",ht:["软件工程师","申请进度","生病","项目评审","您对我项目的帮助","发货延迟","市场经理","发票 #123","缺席昨天的会议","我的生日聚会","订单 #4521","我的大学申请"]},
+tr:{dl:["Tarih","Saat","Başlangıç","Bitiş"],rh:"Son taslaklar",ht:["Yazılım Mühendisi","başvuru durumu","hastalık","proje değerlendirmesi","projemdeki yardımınız","teslimat gecikmesi","Pazarlama Müdürü","fatura #123","dünkü toplantıya katılamama","doğum günü partim","sipariş #4521","üniversite başvurum"]}
 };
 
 const rc={en:'en-US',hi:'hi-IN',ur:'ur-PK',sd:'sd-PK',ar:'ar-SA',ru:'ru-RU',ja:'ja-JP',ko:'ko-KR',zh:'zh-CN',tr:'tr-TR'};
@@ -189,10 +253,83 @@ const P={ur:[["چاہتا ہوں","چاہتی ہوں"],["رہا ہوں","رہی 
 sd:[["چاهيان ٿو","چاهيان ٿي"],["رهيو آهيان","رهي آهيان"],["ڪريان ٿو","ڪريان ٿي"]],
 ru:[["Буду рад ","Буду рада "],["Хотел бы","Хотела бы"]]};
 Object.keys(N).forEach(k=>{L[k].t.push(...N[k].t);L[k].y.push(...N[k].y)});
-let ty=0,tn=0,gn=0,rec=null,heard='';
+Object.keys(X).forEach(k=>Object.assign(L[k],X[k]));
+let ty=0,tn=0,gn=0,rec=null,heard='',curId=null;
 const EN={ur:'Urdu',hi:'Hindi',sd:'Sindhi',ar:'Arabic',ru:'Russian',ja:'Japanese',ko:'Korean',zh:'Chinese',tr:'Turkish'};
 const tc={en:'en',hi:'hi',ur:'ur',sd:'sd',ar:'ar',ru:'ru',ja:'ja',ko:'ko',zh:'zh-CN',tr:'tr'};
 Object.keys(L).forEach(k=>['ul','el','sl','tl'].forEach(id=>$(id).add(new Option(k==='en'?'English':L[k].n+' · '+EN[k],k))));
+
+/* ---------- storage: preferences + recent drafts ---------- */
+const K='seb_prefs',KD='seb_drafts';
+function lsGet(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function ld(){return lsGet(KD,[])}
+function sd2(a){lsSet(KD,a)}
+function pref(){lsSet(K,{me:$('me').value,ul:$('ul').value,ty:ty,tn:tn,gn:gn,th:document.documentElement.dataset.t})}
+function sv(){
+  const out=$('out').value.trim();if(!out)return;
+  if(!curId)curId=Date.now();
+  const a=ld().filter(x=>x.id!==curId);
+  a.unshift({id:curId,sj:$('sj').value,out:$('out').value,lang:$('el').value,ty:ty,ts:Date.now()});
+  sd2(a.slice(0,8));
+  if(!$('hist').hidden)rh();
+}
+let st0;function as(){clearTimeout(st0);st0=setTimeout(sv,800)}
+function rh(){
+  const d=ld(),h=$('hist');h.innerHTML='';
+  const hd=document.createElement('div');hd.className='hh';
+  const sp=document.createElement('span');sp.textContent='🕘 '+L[$('ul').value].rh;
+  const cl=document.createElement('button');cl.className='ib sm';cl.textContent='🗑️';cl.onclick=()=>{sd2([]);rh()};
+  hd.append(sp,cl);h.append(hd);
+  if(!d.length){const e=document.createElement('div');e.className='he';e.textContent='—';h.append(e);return}
+  d.forEach((x,i)=>{
+    const r=document.createElement('div');r.className='hi';
+    const b=document.createElement('button');b.className='hl';
+    const s=document.createElement('b');s.textContent=x.sj||'…';
+    const m=document.createElement('small');
+    m.textContent=new Date(x.ts).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})+' · '+(L[x.lang]?L[x.lang].n:'');
+    b.append(s,m);b.onclick=()=>hload(i);
+    const del=document.createElement('button');del.className='hx';del.textContent='✕';
+    del.onclick=()=>{const a=ld();a.splice(i,1);sd2(a);rh()};
+    r.append(b,del);h.append(r);
+  });
+}
+function hp(){const h=$('hist');h.hidden=!h.hidden;if(!h.hidden)rh()}
+function hload(i){
+  const x=ld()[i];if(!x)return;
+  curId=x.id;$('sj').value=x.sj;$('out').value=x.out;
+  if(L[x.lang]){$('el').value=x.lang;$('sl').value=x.lang}
+  if(Number.isInteger(x.ty)&&x.ty>=0&&x.ty<L.en.y.length)ty=x.ty;
+  gv();ui();sdir();uw();flash();$('hist').hidden=true;toast('📂 Loaded');
+}
+
+/* ---------- small UI helpers ---------- */
+let tt0;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt0);tt0=setTimeout(()=>t.classList.remove('on'),1600)}
+function flash(){const p=document.querySelector('.paper');p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop')}
+function uw(){const t=$('out').value.trim();$('wc').textContent=t?t.split(/\s+/).length+' w · '+t.length+' c':''}
+function sdir(){const r=L[$('el').value].r?'rtl':'ltr';[$('sj'),$('out')].forEach(e=>e.dir=r)}
+
+/* ---------- date / time (Leave, Meeting, Resignation, Invitation) ---------- */
+const DM={2:'r',3:'t',6:'o',9:'t'};
+function fd(v,k){
+  const d=new Date(v+'T00:00:00'),o={weekday:'long',day:'numeric',month:'long',year:'numeric'};
+  try{return d.toLocaleDateString(rc[k],o)}catch(e){return d.toLocaleDateString('en-US',o)}
+}
+function ft(v,k){
+  const d=new Date('1970-01-01T'+v),o={hour:'numeric',minute:'2-digit'};
+  try{return d.toLocaleTimeString(rc[k],o)}catch(e){return d.toLocaleTimeString('en-US',o)}
+}
+function dtLine(k){
+  const m=DM[ty];if(!m)return null;
+  const dl=L[k].dl;let a=$('dd1').value,b=$('dd2').value;const t=$('tme').value;
+  if(!a)return null;
+  if(m==='r'&&b&&b<a){const x=a;a=b;b=x}
+  let s=dl[0]+': '+fd(a,k);
+  if(m==='r'&&b&&b!==a)s+=' – '+fd(b,k);
+  if(m==='t'&&t)s+=', '+dl[1]+': '+ft(t,k);
+  return s;
+}
 
 function fg(k,s){
   if(k==='hi')return s.replace(/([\u0900-\u097F]+)\/([\u0900-\u097F]+)/g,(m,a,b)=>gn?b:a);
@@ -205,15 +342,23 @@ function gv(){
   $('el').parentElement.style.gridTemplateColumns=on?'1fr 1fr':'1fr';
 }
 function ui(){
-  const l=L[$('ul').value],u=l.u;
+  const ulang=$('ul').value,l=L[ulang],u=l.u,dl=l.dl,m=DM[ty];
   document.documentElement.dir=l.r?'rtl':'ltr';
   document.title=u[0];$('ttl').textContent=u[0];
   $('l1').textContent=u[1];$('l2').textContent=u[2];
-  $('to').placeholder=u[3];$('me').placeholder=u[4];$('topic').placeholder=u[5];$('det').placeholder=u[6];$('sj').placeholder=u[10];
+  $('to').placeholder=u[3];$('me').placeholder=u[4];
+  $('topic').placeholder=u[5]+' — '+l.ht[ty];
+  $('det').placeholder=u[6];$('sj').placeholder=u[10];
   $('bg').textContent='⚡ '+u[7];$('btr').textContent='🌐 ➜ '+($('tl').value==='en'?'English':L[$('tl').value].n);$('bc').textContent='📋 '+u[8];$('bm').textContent='📧 '+u[9];
-  $('types').innerHTML=l.y.map((t,i)=>`<button class="chip ${i==ty?'on':''}" onclick="ty=${i};ui()"><i>${IC[i]}</i>${t}</button>`).join('');
-  $('tones').innerHTML=l.z.map((t,i)=>`<button class="chip ${i==tn?'on':''}" onclick="tn=${i};ui()">${t}</button>`).join('');
+  $('types').innerHTML=l.y.map((t,i)=>`<button class="chip ${i==ty?'on':''}" style="--i:${i}" onclick="ty=${i};ui()"><i>${IC[i]}</i>${t}</button>`).join('');
+  $('tones').innerHTML=l.z.map((t,i)=>`<button class="chip ${i==tn?'on':''}" style="--i:${i}" onclick="tn=${i};ui()">${t}</button>`).join('');
   $('gen2').innerHTML=['👨','👩'].map((e,i)=>`<button class="chip ${i==gn?'on':''}" onclick="gn=${i};ui()">${e}</button>`).join('');
+  $('dtrow').style.display=m?'grid':'none';
+  $('dl1').textContent='📅 '+(m==='r'?dl[2]:dl[0]);
+  $('f2').style.display=m==='r'?'block':'none';$('dl2').textContent='📅 '+dl[3];
+  $('f3').style.display=m==='t'?'block':'none';$('dl3').textContent='🕒 '+dl[1];
+  pref();
+  if(!$('hist').hidden)rh();
 }
 function make(spoken){
   if(typeof spoken!=='string')spoken='';
@@ -221,11 +366,13 @@ function make(spoken){
   if(spoken){$('el').value=k;gv()}
   const to=v('to')||l.x,me=v('me')||'[ … ]',tp=v('topic')||'…',dt=v('det');
   const s=l.j?'':' ',r=l.t[ty].map(x=>fg(k,x)),f=x=>x.replace(/\{t\}/g,()=>tp);
-  const body=spoken?[spoken]:[(tn<2?l.o[tn]+s:'')+f(r[1]),dt?l.d+dt:null].filter(x=>x!==null);
+  const dtl=spoken?null:dtLine(k);
+  const body=spoken?[spoken]:[(tn<2?l.o[tn]+s:'')+f(r[1]),dtl,dt?l.d+dt:null].filter(x=>x!==null);
   const lines=[l.h[tn].replace('{n}',()=>to),'',...body,'',f(r[2]),'',l.b[tn],me];
   $('sj').value=spoken&&!v('topic')?(spoken.length>40?spoken.slice(0,40)+'…':spoken):f(r[0]);
   $('out').value=lines.join('\n');
-  [$('sj'),$('out')].forEach(e=>e.dir=l.r?'rtl':'ltr');
+  sdir();uw();flash();
+  curId=Date.now();sv();
 }
 async function mic(){
   const R=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -275,7 +422,7 @@ async function trans(){
     const sj=$('sj').value.trim()?await tx($('sj').value,tc[a],tc[b]):'';
     $('out').value=o.join('\n');$('sj').value=sj;
     $('el').value=b;$('sl').value=b;gv();
-    [$('sj'),$('out')].forEach(e=>e.dir=L[b].r?'rtl':'ltr');
+    sdir();uw();flash();sv();
     $('ms').textContent='✅ '+L[b].n;
   }catch(e){$('ms').textContent='⚠️ Translate needs internet (free limit may be reached)'}
 }
@@ -319,16 +466,40 @@ async function polish(){
   const o=$('out').value;if(!o.trim())return;
   if(det(o)!=='en'){$('ms').textContent='ℹ️ Polish works for English text';return}
   $('sj').value=lp($('sj').value);
-  let t=pe(lp(o));$('out').value=t;$('ms').textContent='⏳ …';
-  try{t=await lt(t);$('out').value=t;$('ms').textContent='✨ ✅ Polished'}
+  let t=pe(lp(o));$('out').value=t;uw();sv();$('ms').textContent='⏳ …';
+  try{t=await lt(t);$('out').value=t;uw();sv();flash();$('ms').textContent='✨ ✅ Polished'}
   catch(e){$('ms').textContent='✨ Basic polish done (internet needed for the full grammar check)'}
 }
-function cp(){navigator.clipboard.writeText($('sj').value+'\n\n'+$('out').value);const b=$('bc'),o=b.textContent;b.textContent='✅';setTimeout(()=>b.textContent=o,1200)}
-function ml(){location.href='mailto:?subject='+encodeURIComponent($('sj').value)+'&body='+encodeURIComponent($('out').value)}
-function th(){const d=document.documentElement;d.dataset.t=d.dataset.t==='light'?'dark':'light'}
-$('ul').onchange=()=>{const v=$('ul').value;$('el').value=v;$('sl').value=v;$('tl').value=v;ui();gv()};$('el').onchange=()=>{$('sl').value=$('el').value;gv()};
-document.documentElement.dataset.t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+function cp(){
+  navigator.clipboard.writeText($('sj').value+'\n\n'+$('out').value).then(()=>toast('✅ Copied')).catch(()=>toast('⚠️ Copy failed'));
+  const b=$('bc'),o=b.textContent;b.textContent='✅';setTimeout(()=>b.textContent=o,1200);sv();
+}
+function ml(){sv();location.href='mailto:?subject='+encodeURIComponent($('sj').value)+'&body='+encodeURIComponent($('out').value)}
+function th(){const d=document.documentElement;d.dataset.t=d.dataset.t==='light'?'dark':'light';pref()}
+
+/* ---------- events ---------- */
+$('ul').onchange=()=>{const v=$('ul').value;$('el').value=v;$('sl').value=v;$('tl').value=v;ui();gv()};
+$('el').onchange=()=>{$('sl').value=$('el').value;gv()};
+$('me').addEventListener('input',pref);
+$('dd1').addEventListener('change',()=>{$('dd2').min=$('dd1').value});
+$('out').addEventListener('input',()=>{as();uw()});
+$('sj').addEventListener('input',as);
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();make()}});
+
+/* ---------- start-up: restore saved name, language, tone, type and last draft ---------- */
+const P0=lsGet(K,{});
+document.documentElement.dataset.t=P0.th||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+if(P0.ul&&L[P0.ul])['ul','el','sl','tl'].forEach(i=>$(i).value=P0.ul);
+if(P0.me)$('me').value=P0.me;
+if(Number.isInteger(P0.ty)&&P0.ty>=0&&P0.ty<L.en.y.length)ty=P0.ty;
+if([0,1,2].includes(P0.tn))tn=P0.tn;
+if(P0.gn===1)gn=1;
+document.body.classList.add('boot');
 ui();gv();
+const D0=ld()[0];
+if(D0){curId=D0.id;$('sj').value=D0.sj;$('out').value=D0.out;if(L[D0.lang]){$('el').value=D0.lang;$('sl').value=D0.lang}gv();sdir()}
+uw();
+setTimeout(()=>document.body.classList.remove('boot'),1400);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
